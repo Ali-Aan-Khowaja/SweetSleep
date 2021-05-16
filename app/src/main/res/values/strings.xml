@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Sweet Sleep</string>
+    <string name="connect">Connect</string>
+    <string name="sweet_sleep">Sweet Sleep</string>
+    <string name="sleep_monitoring_system">Sleep Monitoring System</string>
+    <string name="logo">Logo</string>
+    <string name="sync">Sync</string>
+</resources>
