@@ -210,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
             dataWithTime[i] = nextInterval + ", " + dataWithTime[i] + "\n";
             hour = Integer.parseInt(nextInterval.split(":")[0]);
             minute = Integer.parseInt(nextInterval.split(":")[1]);
-            if (hour == 0 && minute == 0){
+            if (hour == 1 && minute == 0){
                 hour = 12;
                 minute = 59;
             } else if (minute != 0) {
