@@ -5,4 +5,5 @@
     <string name="sleep_monitoring_system">Sleep Monitoring System</string>
     <string name="logo">Logo</string>
     <string name="sync">Sync</string>
+    <string name="back">Back</string>
 </resources>

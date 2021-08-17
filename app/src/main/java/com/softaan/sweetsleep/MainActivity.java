@@ -39,9 +39,6 @@ public class MainActivity extends AppCompatActivity {
     private String deviceName = null;
     private String deviceAddress;
     public String data;
-    public String syncTime;
-    public String nextInterval;
-    public String[] dataWithTime;
     public RecyclerView files;
     public RecyclerView.Adapter storedFileAdapter;
     public static Handler handler;
@@ -68,8 +65,6 @@ public class MainActivity extends AppCompatActivity {
         progressBar.setVisibility(View.GONE);
         sync.setEnabled(false);
         data = "";
-        syncTime = "";
-        dataWithTime = new String[]{};
 
         showFiles();
 
@@ -126,7 +121,6 @@ public class MainActivity extends AppCompatActivity {
                         break;
                 }
                 if (data.contains("Data Complete"))
-                    addTime();
                     writeData();
                     showFiles();
 
@@ -159,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
         sync.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                syncTime = getTime();
                 connectedThread.write("Send Data");
             }
         });
@@ -187,44 +180,12 @@ public class MainActivity extends AppCompatActivity {
         return list;
     }
 
-    public String getTime(){
-        Date now = new Date();
-        String hour = now.toString().split(" ")[3].split(":")[0];
-        String minute = now.toString().split(" ")[3].split(":")[1];
-        return hour + ":" + minute;
-    }
-
     public String getDate(){
         Date now = new Date();
         String day = now.toString().split(" ")[2];
         String month = now.toString().split(" ")[1];
         String year = now.toString().split(" ")[5];
         return day + "-" + month + "-" + year;
-    }
-
-    private void addTime() {
-        int hour, minute;
-        nextInterval = syncTime;
-        dataWithTime = data.split("\n");
-        for (int i = dataWithTime.length - 2; i >= 1; i--) {
-            dataWithTime[i] = nextInterval + ", " + dataWithTime[i] + "\n";
-            hour = Integer.parseInt(nextInterval.split(":")[0]);
-            minute = Integer.parseInt(nextInterval.split(":")[1]);
-            if (hour == 1 && minute == 0){
-                hour = 12;
-                minute = 59;
-            } else if (minute != 0) {
-                minute--;
-            } else if (minute == 0){
-                hour--;
-                minute = 59;
-            }
-            nextInterval = hour + ":" + minute;
-        }
-        data = "";
-        for (String line : dataWithTime){
-            data += line ;
-        }
     }
 
     public void writeData(){
