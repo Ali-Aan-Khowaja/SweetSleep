@@ -22,6 +22,7 @@ android {
         python {
             buildPython "C:/Users/aliaa/AppData/Local/Programs/Python/Python38/python.exe"
             pip {
+                install "scikit-learn"
                 install "pandas"
                 install "joblib"
             }

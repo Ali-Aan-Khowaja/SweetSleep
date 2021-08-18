@@ -173,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
         File folder = new File(getFilesDir().getPath());
         File[] filesInFolder = folder.listFiles();
         for (File file : filesInFolder) {
-            if (!file.isDirectory()) {
+            if (!file.isDirectory() && !file.getName().contains(".json") ) {
                 list.add(new StoredFile(file.getName()));
             }
         }
@@ -190,6 +190,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void writeData(){
         data = data.replace("Data Complete", "");
+        data = data.replace("Send Data", "");
         data = data.replace("�", "");
         String fileName = getDate() + ".csv";
         FileOutputStream fos;
