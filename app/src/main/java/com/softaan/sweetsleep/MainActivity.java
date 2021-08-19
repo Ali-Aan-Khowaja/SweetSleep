@@ -2,9 +2,12 @@ package com.softaan.sweetsleep;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.fragment.app.DialogFragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothSocket;
@@ -14,10 +17,12 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.os.Message;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
+import android.widget.TimePicker;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -28,7 +33,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.UUID;
 
@@ -55,13 +60,16 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         // UI Initialization
-        final Button buttonConnect = findViewById(R.id.buttonConnect);
+        final ImageButton buttonConnect = findViewById(R.id.buttonConnect);
         final Toolbar toolbar = findViewById(R.id.toolbar);
         final ProgressBar progressBar = findViewById(R.id.progressBar);
         final FloatingActionButton sync = findViewById(R.id.sync);
-        final Button buttonCancel = findViewById(R.id.buttonCancel);
+        final ImageButton buttonCancel = findViewById(R.id.buttonCancel);
+        final ImageButton buttonSetAlarm = findViewById(R.id.alarmBtn);
         buttonCancel.setEnabled(false);
         buttonCancel.setVisibility(View.INVISIBLE);
+        buttonSetAlarm.setEnabled(false);
+        buttonSetAlarm.setVisibility(View.INVISIBLE);
         progressBar.setVisibility(View.GONE);
         sync.setEnabled(false);
         data = "";
@@ -104,6 +112,8 @@ public class MainActivity extends AppCompatActivity {
                                 buttonConnect.setVisibility(View.INVISIBLE);
                                 buttonCancel.setEnabled(true);
                                 buttonCancel.setVisibility(View.VISIBLE);
+                                buttonSetAlarm.setEnabled(true);
+                                buttonSetAlarm.setVisibility(View.VISIBLE);
                                 sync.setEnabled(true);
                                 break;
                             case -1:
@@ -146,7 +156,17 @@ public class MainActivity extends AppCompatActivity {
                 buttonConnect.setVisibility(View.VISIBLE);
                 buttonCancel.setEnabled(false);
                 buttonCancel.setVisibility(View.INVISIBLE);
+                buttonSetAlarm.setEnabled(false);
+                buttonSetAlarm.setVisibility(View.INVISIBLE);
                 sync.setEnabled(false);
+            }
+        });
+
+        buttonSetAlarm.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogFragment newFragment = new TimePickerFragment();
+                newFragment.show(getSupportFragmentManager(), "timePicker");
             }
         });
 
@@ -201,6 +221,27 @@ public class MainActivity extends AppCompatActivity {
             fos.close();
         } catch (FileNotFoundException e) {e.printStackTrace();}
           catch (IOException e) {e.printStackTrace();}
+    }
+
+    public static class TimePickerFragment extends DialogFragment
+            implements TimePickerDialog.OnTimeSetListener {
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the current time as the default values for the picker
+            final Calendar c = Calendar.getInstance();
+            int hour = c.get(Calendar.HOUR_OF_DAY);
+            int minute = c.get(Calendar.MINUTE);
+
+            // Create a new instance of TimePickerDialog and return it
+            return new TimePickerDialog(getActivity(), this, hour, minute,
+                    DateFormat.is24HourFormat(getActivity()));
+        }
+
+        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+            // Do something with the time chosen by the user
+            connectedThread.write(Integer.toString(hourOfDay) + ":" + Integer.toString(minute));
+        }
     }
 
     /* ============================ Thread to Create Bluetooth Connection =================================== */
