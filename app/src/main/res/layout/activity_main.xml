@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#454545"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    tools:menu="@menu/main_menu">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -18,51 +19,10 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
+        app:menu="@menu/main_menu"
         app:subtitleTextColor="#454545"
         app:title="Home"
         app:titleTextColor="#454545" />
-
-    <ImageButton
-        android:id="@+id/buttonConnect"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="50dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="5dp"
-        android:layout_marginRight="5dp"
-        android:background="#CACACA"
-        android:hapticFeedbackEnabled="true"
-        android:src="@android:drawable/stat_sys_data_bluetooth"
-        android:tint="#454545"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar" />
-
-    <ImageButton
-        android:id="@+id/buttonCancel"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="15dp"
-        android:layout_height="15dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginRight="20dp"
-        android:background="#CACACA"
-        android:src="@android:drawable/ic_menu_close_clear_cancel"
-        android:tint="#454545"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toEndOf="@+id/toolbar"
-        app:layout_constraintTop_toTopOf="@+id/toolbar" />
-
-    <ImageButton
-        android:id="@+id/alarmBtn"
-        style="@style/Widget.AppCompat.Button.Borderless"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:background="#CACACA"
-        android:tint="#454545"
-        app:layout_constraintBottom_toBottomOf="@+id/toolbar"
-        app:layout_constraintEnd_toStartOf="@+id/buttonConnect"
-        app:layout_constraintTop_toTopOf="@+id/toolbar"
-        app:layout_constraintVertical_bias="0.666"
-        app:srcCompat="@android:drawable/ic_lock_idle_alarm" />
 
     <ProgressBar
         android:id="@+id/progressBar"
@@ -98,7 +58,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,4 +6,15 @@
     <string name="logo">Logo</string>
     <string name="sync">Sync</string>
     <string name="back">Back</string>
+    <string name="set_alarm">Set Alarm</string>
+    <string name="disconnect">Disconnect</string>
+    <string name="total_sleep_time">Total Sleep Time</string>
+    <string name="total_wake_time">Total Wake Time</string>
+    <string name="_0">0</string>
+    <string name="rem_sleep_time">REM Sleep Time</string>
+    <string name="rem">REM</string>
+    <string name="light_sleep">Light Sleep</string>
+    <string name="deep_sleep">Deep Sleep</string>
+    <string name="light_sleep_time">Light SleepTime</string>
+    <string name="deep_sleep_time">Deep Sleep Time</string>
 </resources>

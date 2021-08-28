@@ -4,12 +4,16 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.chaquo.python.Python;
+
+import org.eazegraph.lib.charts.PieChart;
+import org.eazegraph.lib.models.PieModel;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -25,11 +29,12 @@ public class ShowResults extends AppCompatActivity {
         setContentView(R.layout.activity_show_results);
         final Toolbar toolbar = findViewById(R.id.toolbar3);
         final ImageButton backButton = findViewById(R.id.backButton);
-        final TextView sleepTime = findViewById(R.id.totalSleepTIme);
+        final TextView sleepTime = findViewById(R.id.totalSleepTime);
         final TextView dsTime = findViewById(R.id.deepSleepTime);
         final TextView lsTime = findViewById(R.id.lightSleepTime);
         final TextView remTime = findViewById(R.id.REMSleepTime);
-        final TextView wakeTime = findViewById(R.id.totalWakeTIme);
+        final TextView wakeTime = findViewById(R.id.totalWakeTime);
+        final PieChart pieChart = findViewById(R.id.pieChart);
         String fileName = getIntent().getStringExtra("File Name");
 
         Python.getInstance().getModule("script").callAttr("main", getFilesDir().getPath() + "/" + fileName);
@@ -65,12 +70,24 @@ public class ShowResults extends AppCompatActivity {
         float lightSleepTime = Float.parseFloat(dataSummary.split(",")[1].split(":")[1]);
         float remSleepTime = Float.parseFloat(dataSummary.split(",")[2].split(":")[1]);
         float totalWakeTime = Float.parseFloat(dataSummary.split(",")[3].split(":")[1]);
+        float totalSleepTime = deepSleepTime + lightSleepTime + remSleepTime;
 
-        sleepTime.setText("Total Sleep Time: " + minutesToHours(deepSleepTime + lightSleepTime + remSleepTime));
-        dsTime.setText("Deep Sleep Time: " + minutesToHours(deepSleepTime));
-        lsTime.setText("Light Sleep Time: " + minutesToHours(lightSleepTime));
-        remTime.setText("REM Sleep Time: " + minutesToHours(remSleepTime));
-        wakeTime.setText("Total Wake Time: " + minutesToHours(totalWakeTime));
+        sleepTime.setText(minutesToHours(totalSleepTime));
+        dsTime.setText(minutesToHours(deepSleepTime));
+        lsTime.setText(minutesToHours(lightSleepTime));
+        remTime.setText(minutesToHours(remSleepTime));
+        wakeTime.setText(minutesToHours(totalWakeTime));
+
+        float deepSleepPercent = (deepSleepTime/totalSleepTime) * 100;
+        float lightSleepPercent = (lightSleepTime/totalSleepTime) * 100;
+        float remSleepPercent = (remSleepTime/totalSleepTime) * 100;
+        
+        pieChart.addPieSlice(new PieModel("Deep Sleep", deepSleepPercent, Color.parseColor("#FFA726")));
+        pieChart.addPieSlice(new PieModel("Light Sleep", lightSleepPercent, Color.parseColor("#EF5350")));
+        pieChart.addPieSlice(new PieModel("REM", remSleepPercent, Color.parseColor("#29B6F6")));
+
+        // To animate the pie chart
+        pieChart.startAnimation();
     }
     String minutesToHours(float totalMinutes){
         totalMinutes /= 60;
